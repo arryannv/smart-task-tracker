@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<div class="container">
+    <h1>📊 Task Dashboard</h1>
+
+    <div class="stats-overview">
+        <p><strong>Total Tasks:</strong> {{ total }}</p>
+        <p><strong>Completed:</strong> {{ completed }}</p>
+        <p><strong>Pending:</strong> {{ pending }}</p>
+        <p><strong>Due Today:</strong> {{ due_today }}</p>
+    </div>
+
+    <canvas id="categoryChart" width="400" height="300"></canvas>
+
+    <a href="/" class="btn back-btn">← Back to Tasks</a>
+</div>
+
+<script>
+    const taskCategoryLabels = JSON.parse("{{ categories | map(attribute='category') | list | tojson }}");
+    const taskCategoryCounts = JSON.parse("{{ categories | map(attribute='count') | list | tojson }}");
+
+    const taskCategoryData = {
+        labels: taskCategoryLabels,
+        datasets: [{
+            label: 'Tasks by Category',
+            data: taskCategoryCounts,
+            backgroundColor: [
+                '#007bff', '#28a745', '#ffc107', '#dc3545', '#6f42c1'
+            ]
+        }]
+    };
+
+    const taskCategoryChartConfig = {
+        type: 'bar',
+        data: taskCategoryData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Tasks by Category'
+                }
+            }
+        }
+    };
+
+    new Chart(document.getElementById('categoryChart'), taskCategoryChartConfig);
+</script>
+<script>
+function toggleTheme() {
+    const body = document.body;
+    body.classList.toggle('dark');
+    localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+    }
+});
+</script>
+
+</body>
+</html>

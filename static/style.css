@@ -1,0 +1,276 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Container */
+.container {
+    max-width: 960px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    padding: 30px;
+}
+
+/* Headings */
+h1, h2, h3 {
+    color: #111;
+    margin-bottom: 16px;
+}
+
+/* Forms */
+form {
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+form input[type="text"],
+form input[type="date"],
+form input[type="email"],
+form select {
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    flex: 1;
+    min-width: 140px;
+}
+
+form button {
+    background: #3b82f6;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+form button:hover {
+    background: #2563eb;
+}
+
+/* Task List */
+.task-list {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.task {
+    background: #f4f4f4;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+    transition: background 0.3s;
+}
+
+.task.done {
+    background: #d1fae5;
+    border-left: 6px solid #10b981;
+}
+
+.task.overdue {
+    background: #fee2e2;
+    border-left: 6px solid #ef4444;
+}
+
+.task.due-today {
+    background: #fef9c3;
+    border-left: 6px solid #eab308;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.task-tags {
+    font-size: 13px;
+    color: #888;
+}
+
+.task-meta {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.task-actions a.btn {
+    margin-right: 8px;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.complete-btn {
+    background: #10b981;
+    color: white;
+}
+.complete-btn:hover {
+    background: #059669;
+}
+.edit-btn {
+    background: #3b82f6;
+    color: white;
+}
+.edit-btn:hover {
+    background: #2563eb;
+}
+.delete-btn {
+    background: #ef4444;
+    color: white;
+}
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+/* Filters */
+.filters {
+    margin-bottom: 25px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    float: right;
+    margin-bottom: 10px;
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.theme-toggle:hover {
+    background: #4b5563;
+}
+
+/* AI Assistant UI */
+#chat-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#chat-form input[type="text"] {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+#chat-form button {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#chat-form button:hover {
+    background: #4f46e5;
+}
+
+#response {
+    margin-top: 10px;
+    background: #f1f1f1;
+    padding: 14px;
+    border-radius: 10px;
+}
+
+/* Back Button */
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 14px;
+    background: #6b7280;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    background: #4b5563;
+}
+
+/* Voice Input Button */
+.voice-input-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex: 1;
+}
+
+.voice-input-group input {
+    flex: 1;
+}
+
+.voice-input-group button {
+    background: #9333ea;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.voice-input-group button:hover {
+    background: #7e22ce;
+}
+
+/* Dark Mode */
+body.dark {
+    background-color: #1f2937;
+    color: #f3f4f6;
+}
+
+body.dark .container {
+    background-color: #374151;
+}
+
+body.dark h1, body.dark h2, body.dark h3 {
+    color: #fff;
+}
+
+body.dark .task {
+    background-color: #4b5563;
+    color: #f3f4f6;
+}
+
+body.dark form input,
+body.dark form select,
+body.dark #chat-form input {
+    background-color: #1e293b;
+    color: #f3f4f6;
+    border: 1px solid #64748b;
+}
+
+body.dark #response {
+    background-color: #334155;
+    color: #f3f4f6;
+}

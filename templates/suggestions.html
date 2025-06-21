@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Suggestions</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h2>Suggested Task</h2>
+    {% if suggestion %}
+    
+    <div class="suggested-task">
+        <h3>{{ suggestion.title }}</h3>
+        <p>{{ suggestion.description }}</p>
+        <p><strong>Due:</strong> {{ suggestion.due }}</p>
+        <p><strong>Priority:</strong> {{ suggestion.priority }}</p>
+        <p><strong>Category:</strong> {{ suggestion.category }}</p>
+        <p><strong>Tags:</strong> {{ suggestion.tags }}</p>
+    </div>
+    {% else %}
+    <p>No suggestions available yet. Complete a few tasks first.</p>
+{% endif %}
+
+<a href="/" class="btn back-btn">← Back</a>
+
+
+</div>
+</body>
+</html>
