@@ -54,7 +54,7 @@ A full-stack intelligent task management app built with **Flask**, **SQLite**, a
 ### 🤖 AI Assistant Chat
 ![Chat](assets/AI_Assistant.png)
 
-### EMail Alert
+### 📧 E-Mail Alert
 ![Alert](assets/Email_Alert.png)
 
 ---
