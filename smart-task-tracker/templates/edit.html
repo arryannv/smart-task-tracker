@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Task</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Edit Task</h1>
+    <form method="post">
+        <input type="text" name="title" value="{{ task.title }}" required>
+        <input type="text" name="description" value="{{ task.description }}">
+        <input type="date" name="due" value="{{ task.due }}">
+        <select name="category" required>
+            {% for option in ['Work', 'Personal', 'Study', 'Other'] %}
+                <option value="{{ option }}" {% if task.category == option %}selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+        </select>
+        <select name="priority" required>
+            {% for level in ['Low', 'Medium', 'High'] %}
+                <option value="{{ level }}" {% if task.priority == level %}selected{% endif %}>{{ level }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="tags" value="{{ task.tags }}">
+        <input type="email" name="email" value="{{ task.email }}">
+        <button type="submit" class="btn">Save Changes</button>
+    </form>
+</div>
+</body>
+</html>

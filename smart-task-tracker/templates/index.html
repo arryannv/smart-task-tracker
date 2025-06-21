@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Task Tracker</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <h1>📋 Smart Task Tracker</h1>
+        <nav class="nav-buttons">
+            <a href="/dashboard" class="btn">📊 Dashboard</a>
+            <button class="btn theme-toggle" onclick="toggleTheme()">🌓 Toggle Theme</button>
+        </nav>
+    </header>
+
+    <!-- Filter Form -->
+    <form method="get" action="/" class="filters">
+        <input type="text" name="search" placeholder="Search tasks..." value="{{ search_query }}">
+
+        <select name="status">
+            <option value="all" {{ 'selected' if status_filter == 'all' else '' }}>All</option>
+            <option value="completed" {{ 'selected' if status_filter == 'completed' else '' }}>Completed</option>
+            <option value="pending" {{ 'selected' if status_filter == 'pending' else '' }}>Pending</option>
+        </select>
+
+        <select name="category">
+            <option value="all" {{ 'selected' if category_filter == 'all' else '' }}>All Categories</option>
+            <option value="Work" {{ 'selected' if category_filter == 'Work' else '' }}>Work</option>
+            <option value="Personal" {{ 'selected' if category_filter == 'Personal' else '' }}>Personal</option>
+            <option value="Study" {{ 'selected' if category_filter == 'Study' else '' }}>Study</option>
+            <option value="Other" {{ 'selected' if category_filter == 'Other' else '' }}>Other</option>
+        </select>
+
+        <select name="due">
+            <option value="all" {{ 'selected' if due_filter == 'all' else '' }}>All Dates</option>
+            <option value="today" {{ 'selected' if due_filter == 'today' else '' }}>Due Today</option>
+        </select>
+
+        <button type="submit" class="btn">Apply Filters</button>
+    </form>
+
+    <!-- Add Task Form -->
+    <form method="post" action="/add" class="add-task-form">
+        <div class="voice-input-group">
+            <input type="text" id="title" name="title" placeholder="Task title" required>
+            <button type="button" id="start-recording" title="Voice Input">🎤</button>
+        </div>
+        <input type="text" name="description" placeholder="Description">
+        <input type="date" name="due" required>
+        <select name="category" required>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Study">Study</option>
+            <option value="Other">Other</option>
+        </select>
+        <select name="priority" required>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+        <input type="text" name="tags" placeholder="e.g. urgent,office">
+        <input type="email" name="email" placeholder="Email (optional)">
+        <button type="submit" class="btn primary">Add Task</button>
+    </form>
+
+    <!-- Task List -->
+    <ul class="task-list">
+        {% for task in tasks %}
+        <li class="task {% if task.done %}done{% endif %} {% if task.overdue %}overdue{% elif task.due_today %}due-today{% endif %}">
+            <div class="task-header">
+                <strong>{{ task.title }}</strong>
+                {% if task.tags %}
+                    <span class="task-tags">[{{ task.tags }}]</span>
+                {% endif %}
+            </div>
+            <div class="task-meta">
+                <span>{{ task.description }}</span><br>
+                <span>Due: {{ task.due }}</span> |
+                <span>Category: {{ task.category }}</span> |
+                <span class="priority {{ task.priority | lower }}">{{ task.priority }}</span>
+            </div>
+            <div class="task-actions">
+                {% if not task.done %}
+                    <a href="/complete/{{ task.id }}" class="btn complete-btn">✔</a>
+                {% endif %}
+                <a href="/edit/{{ task.id }}" class="btn edit-btn">✎</a>
+                <a href="/delete/{{ task.id }}" class="btn delete-btn">🗑</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <section class="ai-section">
+        <h2>🧠 AI Assistant</h2>
+        <form method="POST" action="/chat" id="chat-form">
+            <input type="text" name="message" placeholder="Ask your assistant..." required>
+            <button type="submit" class="btn">Send</button>
+        </form>
+        <div id="response" class="chat-response"></div>
+    </section>
+</div>
+
+<!-- Theme Toggle Script -->
+<script>
+function toggleTheme() {
+    const body = document.body;
+    body.classList.toggle('dark');
+    localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+    }
+});
+</script>
+
+<!-- Voice Input Script -->
+<script>
+const micBtn = document.getElementById('start-recording');
+const titleInput = document.getElementById('title');
+
+micBtn.addEventListener('click', () => {
+    if (!('webkitSpeechRecognition' in window)) {
+        alert("Speech recognition not supported in this browser.");
+        return;
+    }
+
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        titleInput.value = transcript;
+    };
+
+    recognition.onerror = function(event) {
+        alert("Voice input error: " + event.error);
+    };
+});
+</script>
+
+<!-- AI Chat Script -->
+<script>
+const form = document.getElementById('chat-form');
+form.onsubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const response = await fetch('/chat', {
+        method: 'POST',
+        body: formData
+    });
+    const data = await response.json();
+    document.getElementById('response').innerText = data.reply;
+    form.reset();
+};
+</script>
+</body>
+</html>
